@@ -35,9 +35,9 @@ public class User implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "subscriptions_type_id")
-    private SubscriptionsType subscriptionsType;
+    private SubscriptionType subscriptionType;
 
-    public User(Long id, String name, String email, String phone, String cpf, LocalDate dtSubscription, LocalDate dtExpiration, UserType userType, SubscriptionsType subscriptionsType) {
+    public User(Long id, String name, String email, String phone, String cpf, LocalDate dtSubscription, LocalDate dtExpiration, UserType userType, SubscriptionType subscriptionType) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -46,7 +46,7 @@ public class User implements Serializable {
         this.dtSubscription = dtSubscription;
         this.dtExpiration = dtExpiration;
         this.userType = userType;
-        this.subscriptionsType = subscriptionsType;
+        this.subscriptionType = subscriptionType;
     }
 
     public User() {

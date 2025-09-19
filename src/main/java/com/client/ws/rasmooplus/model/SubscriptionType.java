@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @Entity
 @Table(name = "subscriptions_type")
-public class SubscriptionsType implements Serializable {
+public class SubscriptionType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "subscriptions_type_id")
@@ -26,7 +26,7 @@ public class SubscriptionsType implements Serializable {
     @Column(name = "product_key")
     private String productKey;
 
-    public SubscriptionsType(Long id, String name, Integer accessMonths, BigDecimal price, String productKey) {
+    public SubscriptionType(Long id, String name, Integer accessMonths, BigDecimal price, String productKey) {
         this.id = id;
         this.name = name;
         this.accessMonths = accessMonths;
@@ -34,6 +34,6 @@ public class SubscriptionsType implements Serializable {
         this.productKey = productKey;
     }
 
-    public SubscriptionsType() {
+    public SubscriptionType() {
     }
 }
