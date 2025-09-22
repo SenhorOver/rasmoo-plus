@@ -1,15 +1,14 @@
 package com.client.ws.rasmooplus.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "user_type")
 public class UserType implements Serializable {
@@ -19,12 +18,4 @@ public class UserType implements Serializable {
     private Long id;
     private String name;
     private String description;
-
-    public UserType(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-    
-    public UserType() {}
 }
