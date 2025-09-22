@@ -19,7 +19,7 @@ public class SubscriptionType implements Serializable {
     private Long id;
 
     private String name;
-    @Column(name = "access_month")
+    @Column(name = "access_months")
     private Integer accessMonths;
     private BigDecimal price;
     @Column(name = "product_key")
