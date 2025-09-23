@@ -12,9 +12,9 @@ import java.math.BigDecimal;
 @Builder
 @Entity
 @Table(name = "subscriptions_type")
-public class SubscriptionsType implements Serializable {
+public class SubscriptionType implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subscriptions_type_id")
     private Long id;
 
@@ -22,6 +22,6 @@ public class SubscriptionsType implements Serializable {
     @Column(name = "access_months")
     private Integer accessMonths;
     private BigDecimal price;
-    @Column(name = "product_key")
+    @Column(name = "product_key", unique = true)
     private String productKey;
 }
