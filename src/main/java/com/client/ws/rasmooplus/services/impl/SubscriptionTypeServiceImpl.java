@@ -16,43 +16,64 @@ import java.util.Objects;
 @Service
 public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     @Autowired
-    private SubscriptionTypeRepository subscriptionTypeRepository;
+    private SubscriptionTypeRepository repository;
 
     @Transactional(readOnly = true)
     @Override
     public List<SubscriptionTypeDto> findAll() {
-        List<SubscriptionType> subscriptionTypeList = subscriptionTypeRepository.findAll();
+        List<SubscriptionType> entities = repository.findAll();
 
-        return subscriptionTypeList.stream().map(SubscriptionTypeDto::new).toList();
+        return entities.stream().map(SubscriptionTypeDto::new).toList();
     }
     @Transactional(readOnly = true)
     @Override
     public SubscriptionTypeDto findById(Long id) {
-        SubscriptionType subscriptionType = subscriptionTypeRepository.findById(id).orElseThrow(() -> new NotFoundException("SubscriptionType not found!"));
-        return new SubscriptionTypeDto(subscriptionType);
+        SubscriptionType entity = getSubscriptionType(id);
+        return new SubscriptionTypeDto(entity);
     }
+
     @Transactional
     @Override
     public SubscriptionTypeDto create(SubscriptionTypeDto dto) {
         if(Objects.nonNull(dto.getId())) {
             throw new BadRequestException("Id deve ser nulo");
         }
-         SubscriptionType subscriptionType = subscriptionTypeRepository.save(SubscriptionType.builder()
+         SubscriptionType entity = repository.save(SubscriptionType.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .accessMonths(dto.getAccessMonths())
                 .price(dto.getPrice())
                 .productKey(dto.getProductKey()).build());
-        return  new SubscriptionTypeDto(subscriptionType);
+        return  new SubscriptionTypeDto(entity);
     }
     @Transactional
     @Override
     public SubscriptionTypeDto update(Long id, SubscriptionTypeDto dto) {
-        return null;
+        /*
+             Fazer atualização com referência
+        SubscriptionType entity = repository.getReferenceById(id);
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setAccessMonths(dto.getAccessMonths());
+        entity.setProductKey(dto.getProductKey());
+        repository.save(entity);
+        */
+        getSubscriptionType(id);
+        SubscriptionType entity = repository.save(SubscriptionType.builder()
+                .id(id)
+                .name(dto.getName())
+                .accessMonths(dto.getAccessMonths())
+                .price(dto.getPrice())
+                .productKey(dto.getProductKey()).build());
+        return new SubscriptionTypeDto(entity);
     }
     @Transactional
     @Override
     public void delete(Long id) {
 
+    }
+
+    private SubscriptionType getSubscriptionType(Long id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("SubscriptionType not found!"));
     }
 }
