@@ -15,23 +15,23 @@ import java.util.List;
 public class SubscriptionTypeController {
 
     @Autowired
-    private SubscriptionTypeServiceImpl subscriptionTypeService;
+    private SubscriptionTypeServiceImpl service;
 
     @GetMapping
     public ResponseEntity<List<SubscriptionTypeDto>> findAll() {
-        List<SubscriptionTypeDto> dtoList = subscriptionTypeService.findAll();
+        List<SubscriptionTypeDto> dtoList = service.findAll();
         return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<SubscriptionTypeDto> findById(@PathVariable("id") Long id) {
-        SubscriptionTypeDto dto = subscriptionTypeService.findById(id);
+        SubscriptionTypeDto dto = service.findById(id);
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
     public ResponseEntity<SubscriptionTypeDto> create(@RequestBody SubscriptionTypeDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionTypeService.create(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
     @PutMapping(value = "/{id}")
@@ -39,6 +39,12 @@ public class SubscriptionTypeController {
             @PathVariable("id") Long id,
             @RequestBody SubscriptionTypeDto dto
     ) {
-        return ResponseEntity.ok(subscriptionTypeService.update(id, dto));
+        return ResponseEntity.ok(service.update(id, dto));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -70,7 +70,8 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     @Transactional
     @Override
     public void delete(Long id) {
-
+        getSubscriptionType(id);
+        repository.deleteById(id);
     }
 
     private SubscriptionType getSubscriptionType(Long id) {
