@@ -3,6 +3,7 @@ package com.client.ws.rasmooplus.services.impl;
 import com.client.ws.rasmooplus.dto.SubscriptionTypeDto;
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
 import com.client.ws.rasmooplus.exceptions.NotFoundException;
+import com.client.ws.rasmooplus.mapper.SubscriptionTypeMapper;
 import com.client.ws.rasmooplus.model.SubscriptionType;
 import com.client.ws.rasmooplus.repositories.SubscriptionTypeRepository;
 import com.client.ws.rasmooplus.services.SubscriptionTypeService;
@@ -23,13 +24,13 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     public List<SubscriptionTypeDto> findAll() {
         List<SubscriptionType> entities = repository.findAll();
 
-        return entities.stream().map(SubscriptionTypeDto::new).toList();
+        return entities.stream().map(SubscriptionTypeMapper::fromEntityToDto).toList();
     }
     @Transactional(readOnly = true)
     @Override
     public SubscriptionTypeDto findById(Long id) {
         SubscriptionType entity = getSubscriptionType(id);
-        return new SubscriptionTypeDto(entity);
+        return SubscriptionTypeMapper.fromEntityToDto(entity);
     }
 
     @Transactional
@@ -38,13 +39,8 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
         if(Objects.nonNull(dto.getId())) {
             throw new BadRequestException("Id deve ser nulo");
         }
-         SubscriptionType entity = repository.save(SubscriptionType.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .accessMonths(dto.getAccessMonths())
-                .price(dto.getPrice())
-                .productKey(dto.getProductKey()).build());
-        return  new SubscriptionTypeDto(entity);
+         SubscriptionType entity = repository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
+        return  SubscriptionTypeMapper.fromEntityToDto(entity);
     }
     @Transactional
     @Override
@@ -59,13 +55,9 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
         repository.save(entity);
         */
         getSubscriptionType(id);
-        SubscriptionType entity = repository.save(SubscriptionType.builder()
-                .id(id)
-                .name(dto.getName())
-                .accessMonths(dto.getAccessMonths())
-                .price(dto.getPrice())
-                .productKey(dto.getProductKey()).build());
-        return new SubscriptionTypeDto(entity);
+        dto.setId(id);
+        SubscriptionType entity = repository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
+        return SubscriptionTypeMapper.fromEntityToDto(entity);
     }
     @Transactional
     @Override

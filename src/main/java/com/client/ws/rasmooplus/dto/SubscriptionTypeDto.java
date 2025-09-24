@@ -17,12 +17,4 @@ public class SubscriptionTypeDto {
     private Integer accessMonths;
     private BigDecimal price;
     private String productKey;
-
-    public SubscriptionTypeDto(SubscriptionType entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.accessMonths = entity.getAccessMonths();
-        this.price = entity.getPrice();
-        this.productKey = entity.getProductKey();
-    }
 }
