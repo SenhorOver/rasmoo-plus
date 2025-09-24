@@ -17,17 +17,17 @@ import java.math.BigDecimal;
 public class SubscriptionTypeDto {
     private Long id;
 
-    @NotBlank(message = "Campo name não pode ser nulo ou vazio")
-    @Size(min = 5, max = 15, message = "Campo name deve ter um valor entre 5 e 30 caracteres")
+    @NotBlank(message = "não pode ser nulo ou vazio")
+    @Size(min = 5, max = 15, message = "deve ter um valor entre 5 e 30 caracteres")
     private String name;
 
-    @Max(value = 12, message = "Campo accessMonth não pode ser maior que 12")
+    @Max(value = 12, message = "não pode ser maior que 12")
     private Integer accessMonths;
 
-    @NotNull(message = "Campo price não pode ser nulo")
+    @NotNull(message = "não pode ser nulo")
     private BigDecimal price;
 
-    @NotBlank(message = "Campo productKey não pode ser nulo ou vazio")
-    @Size(min = 5, max = 15, message = "Campo productKey deve ter um valor entre 5 e 15 caracteres")
+    @NotBlank(message = "não pode ser nulo ou vazio")
+    @Size(min = 5, max = 15, message = "deve ter um valor entre 5 e 15 caracteres")
     private String productKey;
 }
