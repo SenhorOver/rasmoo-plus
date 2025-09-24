@@ -4,17 +4,17 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.math.BigDecimal;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubscriptionTypeDto {
+public class SubscriptionTypeDto extends RepresentationModel<SubscriptionTypeDto> {
     private Long id;
 
     @NotBlank(message = "não pode ser nulo ou vazio")

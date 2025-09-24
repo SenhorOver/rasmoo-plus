@@ -1,5 +1,6 @@
 package com.client.ws.rasmooplus.services.impl;
 
+import com.client.ws.rasmooplus.controllers.SubscriptionTypeController;
 import com.client.ws.rasmooplus.dto.SubscriptionTypeDto;
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
 import com.client.ws.rasmooplus.exceptions.NotFoundException;
@@ -8,6 +9,7 @@ import com.client.ws.rasmooplus.model.SubscriptionType;
 import com.client.ws.rasmooplus.repositories.SubscriptionTypeRepository;
 import com.client.ws.rasmooplus.services.SubscriptionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,9 @@ import java.util.Objects;
 
 @Service
 public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
+    private static final String UPDATE = "update";
+    private static final String DELETE = "delete";
+
     @Autowired
     private SubscriptionTypeRepository repository;
 
@@ -29,8 +34,16 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     @Transactional(readOnly = true)
     @Override
     public SubscriptionTypeDto findById(Long id) {
-        SubscriptionType entity = getSubscriptionType(id);
-        return SubscriptionTypeMapper.fromEntityToDto(entity);
+        return SubscriptionTypeMapper.fromEntityToDto(getSubscriptionType(id)).add(WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).findById(id))
+                .withSelfRel()
+        ).add(WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).update(id, new SubscriptionTypeDto()))
+                .withRel(UPDATE)
+        ).add(WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).delete(id))
+                .withRel(DELETE)
+        );
     }
 
     @Transactional
@@ -39,8 +52,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
         if(Objects.nonNull(dto.getId())) {
             throw new BadRequestException("Id deve ser nulo");
         }
-         SubscriptionType entity = repository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
-        return  SubscriptionTypeMapper.fromEntityToDto(entity);
+        return  SubscriptionTypeMapper.fromEntityToDto(repository.save(SubscriptionTypeMapper.fromDtoToEntity(dto)));
     }
     @Transactional
     @Override
@@ -56,8 +68,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
         */
         getSubscriptionType(id);
         dto.setId(id);
-        SubscriptionType entity = repository.save(SubscriptionTypeMapper.fromDtoToEntity(dto));
-        return SubscriptionTypeMapper.fromEntityToDto(entity);
+        return SubscriptionTypeMapper.fromEntityToDto(repository.save(SubscriptionTypeMapper.fromDtoToEntity(dto)));
     }
     @Transactional
     @Override
