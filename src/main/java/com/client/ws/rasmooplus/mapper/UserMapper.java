@@ -5,6 +5,8 @@ import com.client.ws.rasmooplus.model.SubscriptionType;
 import com.client.ws.rasmooplus.model.User;
 import com.client.ws.rasmooplus.model.UserType;
 
+import java.util.Objects;
+
 public class UserMapper {
 
     public static User fromDtoToEntity(UserDto dto, UserType userType, SubscriptionType subscriptionType) {
@@ -30,8 +32,10 @@ public class UserMapper {
                 .phone(entity.getPhone())
                 .dtSubscription(entity.getDtSubscription())
                 .dtExpiration(entity.getDtExpiration())
+                .userType(UserTypeMapper.fromEntityToDto(entity.getUserType()))
                 .userTypeId(entity.getUserType().getId())
-                .subscriptionTypeId(entity.getSubscriptionType().getId())
+                .subscriptionType(Objects.nonNull(entity.getSubscriptionType()) ? SubscriptionTypeMapper.fromEntityToDto(entity.getSubscriptionType()) : null)
+                .subscriptionTypeId(Objects.nonNull(entity.getSubscriptionType()) ? entity.getSubscriptionType().getId() : null)
                 .build();
     }
 }
