@@ -1,6 +1,6 @@
 package com.client.ws.rasmooplus.mapper;
 
-import com.client.ws.rasmooplus.controllers.UserTypeDto;
+import com.client.ws.rasmooplus.dto.UserTypeDto;
 import com.client.ws.rasmooplus.model.UserType;
 
 public class UserTypeMapper {

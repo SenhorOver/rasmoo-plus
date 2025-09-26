@@ -1,4 +1,4 @@
-package com.client.ws.rasmooplus.controllers;
+package com.client.ws.rasmooplus.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
