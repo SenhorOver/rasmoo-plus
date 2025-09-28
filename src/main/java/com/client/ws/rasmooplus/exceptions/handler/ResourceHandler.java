@@ -2,6 +2,7 @@ package com.client.ws.rasmooplus.exceptions.handler;
 
 import com.client.ws.rasmooplus.dto.error.ErrorResponseDto;
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
+import com.client.ws.rasmooplus.exceptions.BusinessException;
 import com.client.ws.rasmooplus.exceptions.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,15 @@ public class ResourceHandler {
                 .message(err.getMessage())
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .statusCode(HttpStatus.BAD_REQUEST.value())
+                .build());
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponseDto> businessException(BusinessException err) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponseDto.builder()
+                .message(err.getMessage())
+                .httpStatus(HttpStatus.CONFLICT)
+                .statusCode(HttpStatus.CONFLICT.value())
                 .build());
     }
 
