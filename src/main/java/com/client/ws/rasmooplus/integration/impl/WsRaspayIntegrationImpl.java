@@ -5,6 +5,7 @@ import com.client.ws.rasmooplus.dto.wsraspay.OrderDto;
 import com.client.ws.rasmooplus.dto.wsraspay.PaymentDto;
 import com.client.ws.rasmooplus.integration.WsRaspayIntegration;
 import org.apache.logging.log4j.util.Base64Util;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,20 +19,30 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class WsRaspayIntegrationImpl implements WsRaspayIntegration {
 
+    @Value("${webservices.raspay.host}")
+    private String raspayHost;
+    @Value("${webservices.raspay.v1.customer}")
+    private String customerUrl;
+    @Value("${webservices.raspay.v1.order}")
+    private String orderUrl;
+    @Value("${webservices.raspay.v1.payment}")
+    private String paymentUrl;
+
     // Será utilizado RestTemplate para a integração de APIs
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+    private final HttpHeaders headers;
 
     public WsRaspayIntegrationImpl() {
         restTemplate = new RestTemplate();
+        headers = getHttpHeaders();
     }
 
     @Override
     public CustomerDto createCustomer(CustomerDto dto) {
         try {
-            HttpHeaders headers = getHttpHeaders();
-            HttpEntity<CustomerDto> request = new HttpEntity<>(dto, headers);
+            HttpEntity<CustomerDto> request = new HttpEntity<>(dto, this.headers);
             ResponseEntity<CustomerDto> response = restTemplate.exchange(
-                            "http://localhost:8081/ws-raspay/v1/customer",
+                            raspayHost+customerUrl,
                             HttpMethod.POST,
                             request,
                             CustomerDto.class);
@@ -43,12 +54,32 @@ public class WsRaspayIntegrationImpl implements WsRaspayIntegration {
 
     @Override
     public OrderDto createOrder(OrderDto dto) {
-        return null;
+        try {
+            HttpEntity<OrderDto> request = new HttpEntity<>(dto, this.headers);
+            ResponseEntity<OrderDto> response = restTemplate.exchange(
+                    raspayHost+orderUrl,
+                    HttpMethod.POST,
+                    request,
+                    OrderDto.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
     public Boolean processPayment(PaymentDto dto) {
-        return null;
+        try {
+            HttpEntity<PaymentDto> request = new HttpEntity<>(dto, this.headers);
+            ResponseEntity<Boolean> response = restTemplate.exchange(
+                    raspayHost+paymentUrl,
+                    HttpMethod.POST,
+                    request,
+                    Boolean.class);
+            return response.getBody();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     private static HttpHeaders getHttpHeaders() {
