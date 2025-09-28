@@ -6,6 +6,7 @@ import com.client.ws.rasmooplus.dto.wsraspay.OrderDto;
 import com.client.ws.rasmooplus.dto.wsraspay.PaymentDto;
 import com.client.ws.rasmooplus.exceptions.BusinessException;
 import com.client.ws.rasmooplus.exceptions.NotFoundException;
+import com.client.ws.rasmooplus.integration.MailIntegration;
 import com.client.ws.rasmooplus.integration.WsRaspayIntegration;
 import com.client.ws.rasmooplus.integration.impl.WsRaspayIntegrationImpl;
 import com.client.ws.rasmooplus.mapper.UserPaymentInfoMapper;
@@ -35,6 +36,9 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
     @Autowired
     private WsRaspayIntegration wsRaspayIntegration;
 
+    @Autowired
+    private MailIntegration mailIntegration;
+
     @Transactional
     @Override
     public Boolean process(PaymentProcessDto dto) {
@@ -53,15 +57,15 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
         // process payment
         PaymentDto paymentDto = PaymentMapper.build(customerDto.getId(), orderDto.getId(), CreditCardMapper.build(dto.getUserPaymentInfoDto(), user.getCpf()));
         Boolean successPayment = wsRaspayIntegration.processPayment(paymentDto);
-        
+
         // return success or not of payment
         if(successPayment) {
             // save payment infos
             UserPaymentInfo userPaymentInfo = UserPaymentInfoMapper.fromDtoToEntity(dto.getUserPaymentInfoDto(), user);
             userPaymentInfoRepository.save(userPaymentInfo);
             // send email of created account
-
+            mailIntegration.send(user.getEmail(), "Usuário: "+ user.getEmail() +" - Senha: alunorasmoo","Acesso Liberado!");
         }
-        return null;
+        return successPayment;
     }
 }
