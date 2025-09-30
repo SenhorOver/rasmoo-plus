@@ -42,7 +42,7 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
     @Transactional
     @Override
     public Boolean process(PaymentProcessDto dto) {
-        // Verify user by id and verify if signature already exists (acho que é o .getUserId() => vamos ver na hora de testar)
+        // Verify user by id and verify if signature already exists
         User user = userRepository.findById(dto.getUserPaymentInfoDto().getUserId()).orElseThrow(() -> new NotFoundException("User not found"));
 
         if(Objects.nonNull(user.getSubscriptionType())) {
