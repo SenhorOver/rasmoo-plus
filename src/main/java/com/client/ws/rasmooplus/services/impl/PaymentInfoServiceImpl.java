@@ -42,13 +42,12 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
     @Transactional
     @Override
     public Boolean process(PaymentProcessDto dto) {
-        // Verify user by id and verify if signature already exists
-        User user = userRepository.findById(dto.getUserPaymentInfoDto().getId()).orElseThrow(() -> new NotFoundException("User not found"));
+        // Verify user by id and verify if signature already exists (acho que é o .getUserId() => vamos ver na hora de testar)
+        User user = userRepository.findById(dto.getUserPaymentInfoDto().getUserId()).orElseThrow(() -> new NotFoundException("User not found"));
 
         if(Objects.nonNull(user.getSubscriptionType())) {
             throw new BusinessException("Pagamento não pode ser processado pois usuário já possui assinatura");
         }
-
 
         // create or update raspay user
         CustomerDto customerDto = wsRaspayIntegration.createCustomer(CustomerMapper.build(user));
@@ -59,13 +58,14 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
         Boolean successPayment = wsRaspayIntegration.processPayment(paymentDto);
 
         // return success or not of payment
-        if(successPayment) {
+        if(Boolean.TRUE.equals(successPayment)) {
             // save payment infos
             UserPaymentInfo userPaymentInfo = UserPaymentInfoMapper.fromDtoToEntity(dto.getUserPaymentInfoDto(), user);
             userPaymentInfoRepository.save(userPaymentInfo);
             // send email of created account
             mailIntegration.send(user.getEmail(), "Usuário: "+ user.getEmail() +" - Senha: alunorasmoo","Acesso Liberado!");
+            return true;
         }
-        return successPayment;
+        return false;
     }
 }

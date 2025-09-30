@@ -20,14 +20,12 @@ public class SubscriptionTypeController {
 
     @GetMapping
     public ResponseEntity<List<SubscriptionTypeDto>> findAll() {
-        List<SubscriptionTypeDto> dtoList = service.findAll();
-        return ResponseEntity.ok(dtoList);
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<SubscriptionTypeDto> findById(@PathVariable("id") Long id) {
-        SubscriptionTypeDto dto = service.findById(id);
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
