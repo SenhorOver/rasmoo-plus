@@ -21,7 +21,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public TokenDto auth(LoginDto dto) {
         try {
             UserCredentials userCredentials = userDetailsService.loadUserByUsernameAndPass(dto.getUsername(), dto.getPassword());
-            String token = tokenService.getToken(userCredentials);
+            String token = tokenService.getToken(userCredentials.getId());
             return TokenDto.builder()
                     .token(token)
                     .type("Bearer")
