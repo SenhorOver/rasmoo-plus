@@ -19,6 +19,7 @@ import java.util.List;
 public class UserCredentials implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_credentials_id")
     private Long id;
 
     private String username;
