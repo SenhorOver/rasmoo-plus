@@ -1,7 +1,6 @@
 package com.client.ws.rasmooplus.services.impl;
 
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
-import com.client.ws.rasmooplus.exceptions.NotFoundException;
 import com.client.ws.rasmooplus.model.UserCredentials;
 import com.client.ws.rasmooplus.repositories.UserDetailsRepository;
 import com.client.ws.rasmooplus.services.UserDetailsService;
@@ -22,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<UserCredentials> userCredentialsOpt = repository.findByUsername(username);
 
         if(userCredentialsOpt.isEmpty()) {
-            throw new NotFoundException("User/Password Invalid");
+            throw new BadRequestException("User/Password Invalid");
         }
 
         UserCredentials userCredentials = userCredentialsOpt.get();
