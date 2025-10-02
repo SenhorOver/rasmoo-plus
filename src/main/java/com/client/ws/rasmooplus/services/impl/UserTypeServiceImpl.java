@@ -2,7 +2,7 @@ package com.client.ws.rasmooplus.services.impl;
 
 import com.client.ws.rasmooplus.dto.UserTypeDto;
 import com.client.ws.rasmooplus.mapper.UserTypeMapper;
-import com.client.ws.rasmooplus.repositories.UserTypeRepository;
+import com.client.ws.rasmooplus.repositories.jpa.UserTypeRepository;
 import com.client.ws.rasmooplus.services.UserTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

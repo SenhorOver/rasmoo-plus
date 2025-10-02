@@ -2,7 +2,7 @@ package com.client.ws.rasmooplus.services.impl;
 
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
 import com.client.ws.rasmooplus.model.jpa.UserCredentials;
-import com.client.ws.rasmooplus.repositories.UserDetailsRepository;
+import com.client.ws.rasmooplus.repositories.jpa.UserDetailsRepository;
 import com.client.ws.rasmooplus.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
