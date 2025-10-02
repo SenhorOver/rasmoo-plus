@@ -99,7 +99,6 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
         CustomerDto customerDto = wsRaspayIntegration.createCustomer(CustomerMapper.build(user));
         OrderDto orderDto = wsRaspayIntegration.createOrder(OrderMapper.build(customerDto.getId(), dto));
         PaymentDto paymentDto = PaymentMapper.build(customerDto.getId(), orderDto.getId(), CreditCardMapper.build(dto.getUserPaymentInfoDto(), user.getCpf()));
-        Boolean successPayment = wsRaspayIntegration.processPayment(paymentDto);
-        return successPayment;
+        return wsRaspayIntegration.processPayment(paymentDto);
     }
 }

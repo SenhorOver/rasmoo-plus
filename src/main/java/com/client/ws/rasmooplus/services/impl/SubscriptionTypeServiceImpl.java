@@ -9,6 +9,8 @@ import com.client.ws.rasmooplus.model.SubscriptionType;
 import com.client.ws.rasmooplus.repositories.SubscriptionTypeRepository;
 import com.client.ws.rasmooplus.services.SubscriptionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "subscriptionType")
     public List<SubscriptionTypeDto> findAll() {
         List<SubscriptionType> entities = repository.findAll();
 
@@ -33,6 +36,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "subscriptionType", key = "#id")
     public SubscriptionTypeDto findById(Long id) {
         return SubscriptionTypeMapper.fromEntityToDto(getSubscriptionType(id)).add(WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(SubscriptionTypeController.class).findById(id))
@@ -48,6 +52,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "subscriptionType", allEntries = true)
     public SubscriptionTypeDto create(SubscriptionTypeDto dto) {
         if(Objects.nonNull(dto.getId())) {
             throw new BadRequestException("Id deve ser nulo");
@@ -56,6 +61,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
     @Transactional
     @Override
+    @CacheEvict(value = "subscriptionType", allEntries = true)
     public SubscriptionTypeDto update(Long id, SubscriptionTypeDto dto) {
         /*
              Fazer atualização com referência
@@ -72,6 +78,7 @@ public class SubscriptionTypeServiceImpl implements SubscriptionTypeService {
     }
     @Transactional
     @Override
+    @CacheEvict(value = "subscriptionType", allEntries = true)
     public void delete(Long id) {
         getSubscriptionType(id);
         repository.deleteById(id);

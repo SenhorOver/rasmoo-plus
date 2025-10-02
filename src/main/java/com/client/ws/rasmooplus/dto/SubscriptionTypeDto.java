@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubscriptionTypeDto extends RepresentationModel<SubscriptionTypeDto> {
+public class SubscriptionTypeDto extends RepresentationModel<SubscriptionTypeDto> implements Serializable {
     private Long id;
 
     @NotBlank(message = "não pode ser nulo ou vazio")
