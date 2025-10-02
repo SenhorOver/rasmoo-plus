@@ -5,7 +5,7 @@ import com.client.ws.rasmooplus.dto.SubscriptionTypeDto;
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
 import com.client.ws.rasmooplus.exceptions.NotFoundException;
 import com.client.ws.rasmooplus.mapper.SubscriptionTypeMapper;
-import com.client.ws.rasmooplus.model.SubscriptionType;
+import com.client.ws.rasmooplus.model.jpa.SubscriptionType;
 import com.client.ws.rasmooplus.repositories.SubscriptionTypeRepository;
 import com.client.ws.rasmooplus.services.SubscriptionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;

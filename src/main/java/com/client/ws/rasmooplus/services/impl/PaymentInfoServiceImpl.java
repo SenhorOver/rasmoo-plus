@@ -14,7 +14,7 @@ import com.client.ws.rasmooplus.mapper.wsraspay.CreditCardMapper;
 import com.client.ws.rasmooplus.mapper.wsraspay.CustomerMapper;
 import com.client.ws.rasmooplus.mapper.wsraspay.OrderMapper;
 import com.client.ws.rasmooplus.mapper.wsraspay.PaymentMapper;
-import com.client.ws.rasmooplus.model.*;
+import com.client.ws.rasmooplus.model.jpa.*;
 import com.client.ws.rasmooplus.repositories.*;
 import com.client.ws.rasmooplus.services.PaymentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

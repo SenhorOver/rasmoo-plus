@@ -1,7 +1,7 @@
 package com.client.ws.rasmooplus.services.impl;
 
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
-import com.client.ws.rasmooplus.model.UserCredentials;
+import com.client.ws.rasmooplus.model.jpa.UserCredentials;
 import com.client.ws.rasmooplus.repositories.UserDetailsRepository;
 import com.client.ws.rasmooplus.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

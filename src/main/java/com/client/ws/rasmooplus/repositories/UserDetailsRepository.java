@@ -1,6 +1,6 @@
 package com.client.ws.rasmooplus.repositories;
 
-import com.client.ws.rasmooplus.model.UserCredentials;
+import com.client.ws.rasmooplus.model.jpa.UserCredentials;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
