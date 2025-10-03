@@ -1,7 +1,7 @@
 package com.client.ws.rasmooplus.controllers;
 
 import com.client.ws.rasmooplus.dto.SubscriptionTypeDto;
-import com.client.ws.rasmooplus.services.impl.SubscriptionTypeServiceImpl;
+import com.client.ws.rasmooplus.services.SubscriptionTypeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 public class SubscriptionTypeController {
 
     @Autowired
-    private SubscriptionTypeServiceImpl service;
+    private SubscriptionTypeService service;
 
     @GetMapping
     public ResponseEntity<List<SubscriptionTypeDto>> findAll() {
