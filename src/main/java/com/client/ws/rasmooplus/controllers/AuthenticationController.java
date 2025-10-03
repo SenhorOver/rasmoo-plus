@@ -34,7 +34,7 @@ public class AuthenticationController {
     @GetMapping("/recovery-code/")
     public ResponseEntity<Boolean> recoveryCodeIsValid(@RequestParam("recoveryCode") String recoveryCode,
                                                     @RequestParam("email") String email) {
-        return ResponseEntity.ok(userDetailsService.recoveryCodeInValis(recoveryCode, email));
+        return ResponseEntity.ok(userDetailsService.recoveryCodeInValid(recoveryCode, email));
     }
 
 

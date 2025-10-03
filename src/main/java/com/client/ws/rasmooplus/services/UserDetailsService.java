@@ -7,5 +7,5 @@ public interface UserDetailsService {
 
     void sendRecoveryCode(String email);
 
-    boolean recoveryCodeInValis(String recoveryCode, String email);
+    boolean recoveryCodeInValid(String recoveryCode, String email);
 }

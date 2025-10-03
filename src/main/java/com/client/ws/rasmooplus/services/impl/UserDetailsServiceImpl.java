@@ -76,7 +76,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public boolean recoveryCodeInValis(String recoveryCode, String email) {
+    public boolean recoveryCodeInValid(String recoveryCode, String email) {
         Optional<UserRecoveryCode> userRecoveryCodeOpt = userRecoveryCodeRepository.findByEmail(email);
 
         if(userRecoveryCodeOpt.isEmpty()) {
