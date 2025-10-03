@@ -1,5 +1,6 @@
 package com.client.ws.rasmooplus.services.impl;
 
+import com.client.ws.rasmooplus.dto.UserDetailsDto;
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
 import com.client.ws.rasmooplus.exceptions.NotFoundException;
 import com.client.ws.rasmooplus.integration.MailIntegration;
@@ -89,5 +90,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         LocalDateTime now = LocalDateTime.now();
 
         return recoveryCode.equals(userRecoveryCode.getCode()) && now.isBefore(timeout);
+    }
+
+    @Override
+    public void updatePasswordByRecoveryCode(UserDetailsDto dto) {
+        if(recoveryCodeInValid(dto.getRecoveryCode(), dto.getEmail())) {
+            UserCredentials userCredentials = repository.findByUsername(dto.getEmail()).get();
+
+            userCredentials.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
+
+            repository.save(userCredentials);
+        } else {
+            throw new BadRequestException("Expired Recovery Code");
+        }
     }
 }

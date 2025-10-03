@@ -2,6 +2,7 @@ package com.client.ws.rasmooplus.controllers;
 
 import com.client.ws.rasmooplus.dto.LoginDto;
 import com.client.ws.rasmooplus.dto.TokenDto;
+import com.client.ws.rasmooplus.dto.UserDetailsDto;
 import com.client.ws.rasmooplus.model.redis.UserRecoveryCode;
 import com.client.ws.rasmooplus.services.AuthenticationService;
 import com.client.ws.rasmooplus.services.UserDetailsService;
@@ -28,7 +29,7 @@ public class AuthenticationController {
     @PostMapping("/recovery-code/send")
     public ResponseEntity<Void> sendRecoveryCode(@Valid @RequestBody UserRecoveryCode dto) {
         userDetailsService.sendRecoveryCode(dto.getEmail());
-        return ResponseEntity.ok(null);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/recovery-code/")
@@ -37,6 +38,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(userDetailsService.recoveryCodeInValid(recoveryCode, email));
     }
 
-
+    @PatchMapping("/recovery-code/password")
+    public ResponseEntity<Void> updatePasswordByRecoveryCode(@Valid @RequestBody UserDetailsDto dto) {
+        userDetailsService.updatePasswordByRecoveryCode(dto);
+        return ResponseEntity.noContent().build();
+    }
 
 }

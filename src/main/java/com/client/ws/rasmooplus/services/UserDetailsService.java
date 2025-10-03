@@ -1,5 +1,6 @@
 package com.client.ws.rasmooplus.services;
 
+import com.client.ws.rasmooplus.dto.UserDetailsDto;
 import com.client.ws.rasmooplus.model.jpa.UserCredentials;
 
 public interface UserDetailsService {
@@ -8,4 +9,6 @@ public interface UserDetailsService {
     void sendRecoveryCode(String email);
 
     boolean recoveryCodeInValid(String recoveryCode, String email);
+
+    void updatePasswordByRecoveryCode(UserDetailsDto dto);
 }
