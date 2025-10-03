@@ -9,6 +9,7 @@ import com.client.ws.rasmooplus.repositories.jpa.UserDetailsRepository;
 import com.client.ws.rasmooplus.repositories.redis.UserRecoveryCodeRepository;
 import com.client.ws.rasmooplus.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ import java.util.Random;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Value("${webservices.rasplus.redis.recoverycode.timeout}")
+    private String recoveryCodeTimeout;
 
     @Autowired
     private UserDetailsRepository repository;
@@ -69,5 +73,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         userRecoveryCodeRepository.save(userRecoveryCode);
         mailIntegration.send(email, "Código de recuperação de conta: "+code, "Código de recuperação de conta");
+    }
+
+    @Override
+    public boolean recoveryCodeInValis(String recoveryCode, String email) {
+        Optional<UserRecoveryCode> userRecoveryCodeOpt = userRecoveryCodeRepository.findByEmail(email);
+
+        if(userRecoveryCodeOpt.isEmpty()) {
+            throw new NotFoundException("Uusário não encontrado");
+        }
+
+        UserRecoveryCode userRecoveryCode = userRecoveryCodeOpt.get();
+
+        LocalDateTime timeout = userRecoveryCode.getCreationDate().plusMinutes(Long.parseLong(recoveryCodeTimeout));
+        LocalDateTime now = LocalDateTime.now();
+
+        return recoveryCode.equals(userRecoveryCode.getCode()) && now.isBefore(timeout);
     }
 }

@@ -6,4 +6,6 @@ public interface UserDetailsService {
     UserCredentials loadUserByUsernameAndPass(String username, String pass);
 
     void sendRecoveryCode(String email);
+
+    boolean recoveryCodeInValis(String recoveryCode, String email);
 }
