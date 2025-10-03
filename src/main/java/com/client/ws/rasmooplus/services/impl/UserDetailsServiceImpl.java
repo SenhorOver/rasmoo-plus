@@ -76,7 +76,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public boolean recoveryCodeInValid(String recoveryCode, String email) {
+    public boolean recoveryCodeIsValid(String recoveryCode, String email) {
         Optional<UserRecoveryCode> userRecoveryCodeOpt = userRecoveryCodeRepository.findByEmail(email);
 
         if(userRecoveryCodeOpt.isEmpty()) {
@@ -93,7 +93,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public void updatePasswordByRecoveryCode(UserDetailsDto dto) {
-        if(recoveryCodeInValid(dto.getRecoveryCode(), dto.getEmail())) {
+        if(recoveryCodeIsValid(dto.getRecoveryCode(), dto.getEmail())) {
             UserCredentials userCredentials = repository.findByUsername(dto.getEmail()).get();
 
             userCredentials.setPassword(PasswordUtils.encode(dto.getPassword()));

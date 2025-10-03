@@ -8,7 +8,7 @@ public interface UserDetailsService {
 
     void sendRecoveryCode(String email);
 
-    boolean recoveryCodeInValid(String recoveryCode, String email);
+    boolean recoveryCodeIsValid(String recoveryCode, String email);
 
     void updatePasswordByRecoveryCode(UserDetailsDto dto);
 }
