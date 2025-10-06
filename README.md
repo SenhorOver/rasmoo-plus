@@ -25,6 +25,7 @@ Possui rotas protegidas com acesso limitado via Token (JWT) e cache integrado pa
 - Redis
 - Spring Mail
 - MySql
+- Swagger
 
 # Como executar o projeto
 
@@ -51,6 +52,9 @@ cd rasmoo-plus
 docker compose up -d
 ./mvnw spring-boot:run
 ```
+Após rodar o projeto é possível ver endpoints através da seguinte URL:
+
+http://localhost:8082/ws-rasplus/swagger-ui.html
 
 # Autor
 
