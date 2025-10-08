@@ -1,4 +1,4 @@
-package com.client.ws.rasmooplus.service;
+package com.client.ws.rasmooplus.services;
 
 import com.client.ws.rasmooplus.model.jpa.UserType;
 import com.client.ws.rasmooplus.repositories.jpa.UserTypeRepository;
