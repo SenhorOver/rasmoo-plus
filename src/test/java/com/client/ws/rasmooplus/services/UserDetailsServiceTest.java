@@ -10,7 +10,6 @@ import com.client.ws.rasmooplus.model.redis.UserRecoveryCode;
 import com.client.ws.rasmooplus.repositories.jpa.UserDetailsRepository;
 import com.client.ws.rasmooplus.repositories.redis.UserRecoveryCodeRepository;
 import com.client.ws.rasmooplus.services.impl.UserDetailsServiceImpl;
-import com.client.ws.rasmooplus.utils.PasswordUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +29,6 @@ import static org.mockito.Mockito.*;
 class UserDetailsServiceTest {
 
     @Mock
-    private UserCredentialRepository userCredentialRepository;
-
-    @Mock
     private UserDetailsRepository userDetailsRepository;
 
     @Mock
@@ -48,19 +44,17 @@ class UserDetailsServiceTest {
     private static final String PASSWORD_ALUNO = "123";
     private static final String RECOVERY_CODE_ALUNO = "0000";
 
-    private UserType userType;
     private UserCredentials userCredentials;
     private UserRecoveryCode userRecoveryCode;
 
     @BeforeEach
     void loadData() {
-        userType = new UserType(1L, "Aluno", "Aluno da plataforma");
+        UserType userType = new UserType(1L, "Aluno", "Aluno da plataforma");
         userCredentials = new UserCredentials(1L, USERNAME_ALUNO, new BCryptPasswordEncoder().encode(PASSWORD_ALUNO), userType);
         userRecoveryCode = new UserRecoveryCode();
         userRecoveryCode.setId("1");
         userRecoveryCode.setEmail(USERNAME_ALUNO);
         userRecoveryCode.setCode(RECOVERY_CODE_ALUNO);
-        MockitoAnnotations.openMocks(this);
     }
 
     @Test
