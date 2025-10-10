@@ -17,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.webauthn.management.UserCredentialRepository;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
