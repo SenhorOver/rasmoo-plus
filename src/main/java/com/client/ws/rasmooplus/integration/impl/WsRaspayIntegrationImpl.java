@@ -4,7 +4,6 @@ import com.client.ws.rasmooplus.dto.wsraspay.CustomerDto;
 import com.client.ws.rasmooplus.dto.wsraspay.OrderDto;
 import com.client.ws.rasmooplus.dto.wsraspay.PaymentDto;
 import com.client.ws.rasmooplus.integration.WsRaspayIntegration;
-import org.apache.logging.log4j.util.Base64Util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +11,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 
 // Só é @Component por uma questão de padrão de projeto.
@@ -85,7 +87,7 @@ public class WsRaspayIntegrationImpl implements WsRaspayIntegration {
     private static HttpHeaders getHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         String credentials = "rasmooplus:r@sm00";
-        String base64 = Base64Util.encode(credentials);
+        String base64 = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
         headers.add("Authorization", "Basic "+base64);
         return headers;
     }
