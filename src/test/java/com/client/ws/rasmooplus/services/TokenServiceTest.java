@@ -18,7 +18,7 @@ class TokenServiceTest {
     private TokenServiceImpl tokenService;
 
     private static final Long USER_ID = 1L;
-    private static final String TOKEN = "eyJhbGciOiJIUzM4NCJ9.eyJpc3MiOiJBUEkgUmFzbW9vIFBsdXMiLCJzdWIiOiIxIiwiaWF0IjoxNzYwMTI0MTE4LCJleHAiOjE3NjAxMjc3MTh9.crltY71L9Z115VmEgszqWna3upuYjTJZ_LY3VuAALTAtzn71O72cMxFiOfm4C09B";
+    private static final String TOKEN = "eyJhbGciOiJIUzM4NCJ9.eyJpc3MiOiJBUEkgUmFzbW9vIFBsdXMiLCJzdWIiOiIxIiwiaWF0IjoxNzYwMTI5MDg2LCJleHAiOjUzNjAxMjkwODZ9.IALho86_WHlHtvFCOI-gEZaRCcJTOgg8std77nMAd2fvofC3i2yBN-MnhVQzBMUC";
 
     @BeforeEach
     void setUp() {
