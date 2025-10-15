@@ -8,6 +8,7 @@ import com.client.ws.rasmooplus.services.AuthenticationService;
 import com.client.ws.rasmooplus.services.UserDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,24 +22,24 @@ public class AuthenticationController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TokenDto> auth(@Valid @RequestBody LoginDto dto) {
         return ResponseEntity.ok(service.auth(dto));
     }
 
-    @PostMapping("/recovery-code/send")
+    @PostMapping(value = "/recovery-code/send", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> sendRecoveryCode(@Valid @RequestBody UserRecoveryCode dto) {
         userDetailsService.sendRecoveryCode(dto.getEmail());
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/recovery-code/")
+    @GetMapping(value = "/recovery-code/")
     public ResponseEntity<Boolean> recoveryCodeIsValid(@RequestParam("recoveryCode") String recoveryCode,
                                                     @RequestParam("email") String email) {
         return ResponseEntity.ok(userDetailsService.recoveryCodeIsValid(recoveryCode, email));
     }
 
-    @PatchMapping("/recovery-code/password")
+    @PatchMapping(value = "/recovery-code/password", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updatePasswordByRecoveryCode(@Valid @RequestBody UserDetailsDto dto) {
         userDetailsService.updatePasswordByRecoveryCode(dto);
         return ResponseEntity.noContent().build();
