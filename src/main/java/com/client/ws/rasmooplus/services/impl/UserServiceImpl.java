@@ -12,6 +12,7 @@ import com.client.ws.rasmooplus.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -35,5 +36,10 @@ public class UserServiceImpl implements UserService {
         User user = UserMapper.fromDtoToEntity(dto, userType, null);
 
         return UserMapper.fromEntityToDto(repository.save(user));
+    }
+
+    @Override
+    public UserDto uploadPhoto(Long id, MultipartFile file) {
+        return null;
     }
 }
