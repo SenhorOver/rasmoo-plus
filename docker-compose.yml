@@ -10,14 +10,14 @@ services:
       MYSQL_USER: over
       MYSQL_PASSWORD: senha123
     volumes:
-      - mysql_data_container:/data/db
+      - mysql_data_container:/var/lib/mysql
   redis:
     image: redis
     restart: always
     ports:
       - 6379:6379
     volumes:
-      - redis_data_container:/data/redis
+      - redis_data_container:/data
 
 volumes:
   mysql_data_container:
