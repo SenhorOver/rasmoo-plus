@@ -1,6 +1,7 @@
 package com.client.ws.rasmooplus.services;
 
 import com.client.ws.rasmooplus.dto.UserDto;
+import com.client.ws.rasmooplus.dto.UserMinDto;
 import com.client.ws.rasmooplus.dto.UserTypeDto;
 import com.client.ws.rasmooplus.exceptions.BadRequestException;
 import com.client.ws.rasmooplus.exceptions.NotFoundException;
@@ -17,7 +18,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.FileInputStream;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -37,7 +41,7 @@ class UserServiceTest {
     private UserDto dto;
 
     @BeforeEach
-        void loadUser() {
+    void loadUser() {
         dto = new UserDto();
         dto.setEmail("marcos@email.com");
         dto.setCpf("11111111111");
@@ -47,16 +51,11 @@ class UserServiceTest {
 
     @Test
     void given_create_when_idIsNullAndUserTypeIsFound_then_returnUserCreated(){
-        UserType userType = new UserType(1L, "Aluno", "Aluno da plataforma");
+        UserType userType = getUserType();
 
         when(userTypeRepository.findById(1L)).thenReturn(Optional.of(userType));
 
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setCpf(dto.getCpf());
-        user.setDtSubscription(dto.getDtSubscription());
-        user.setDtExpiration(dto.getDtExpiration());
-        user.setUserType(userType);
+        User user = getUser(userType);
 
         when(userRepository.save(user)).thenReturn(user);
 
@@ -73,6 +72,8 @@ class UserServiceTest {
         verify(userTypeRepository, times(1)).findById(1L);
         verify(userRepository, times(1)).save(user);
     }
+
+
 
     @Test
     void given_create_when_idIsNotNull_then_throwBadRequestException(){
@@ -93,5 +94,76 @@ class UserServiceTest {
         // Verificar valor com certa quantidade de vezes e com o determinado valor
         verify(userTypeRepository, times(1)).findById(1L);
         verify(userRepository, times(0)).save(any());
+    }
+
+    @Test
+    void given_uploadPhoto_when_thereIsUserAndFileAndIsIsPNGOrJPEG_then_updatePhotoAndReturnUser() throws Exception {
+        FileInputStream fis = new FileInputStream("src/test/resources/static/logoJava.jpeg");
+        MockMultipartFile file = new MockMultipartFile("file", "logoJava.jpeg", MediaType.MULTIPART_FORM_DATA_VALUE, fis);
+
+        User user = getUser(getUserType());
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        user.setPhoto(file.getBytes());
+        user.setPhotoName(file.getOriginalFilename());
+        when(userRepository.save(user)).thenReturn(user);
+
+        UserMinDto userReturned = userService.uploadPhoto(1L, file);
+
+        Assertions.assertNotNull(userReturned);
+        Assertions.assertNotNull(userReturned.getPhoto());
+        Assertions.assertEquals("logoJava.jpeg", userReturned.getPhotoName());
+
+        verify(userRepository, times(1)).findById(1L);
+        verify(userRepository, times(1)).save(any());
+    }
+
+    @Test
+    void given_uploadPhoto_when_thereIsUserAndFileAndIsIsNotPNGOrJPEG_then_throwBadRequestException() throws Exception {
+        FileInputStream fis = new FileInputStream("src/test/resources/static/logoJava.jpeg");
+        MockMultipartFile file = new MockMultipartFile("file", "logoJava.txt", MediaType.MULTIPART_FORM_DATA_VALUE, fis);
+
+        Assertions.assertThrows(BadRequestException.class, () -> userService.uploadPhoto(1L, file));
+
+        verify(userRepository, times(0)).findById(any());
+        verify(userRepository, times(0)).save(any());
+    }
+
+
+    @Test
+    void given_downloadPhoto_when_thereIsUserAndPhoto_then_returnByteArray() {
+        User user = getUser(getUserType());
+        user.setPhoto(new byte[0]);
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        Assertions.assertNotNull(userService.downloadPhoto(1L));
+
+        verify(userRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void given_downloadPhoto_when_thereIsUserAndThereIsNoPhoto_then_throwBadRequestException() {
+        User user = getUser(getUserType());
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        Assertions.assertThrows(BadRequestException.class, () -> userService.downloadPhoto(1L));
+
+        verify(userRepository, times(1)).findById(1L);
+    }
+
+    private static UserType getUserType() {
+        return new UserType(1L, "Aluno", "Aluno da plataforma");
+    }
+
+    private User getUser(UserType userType) {
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setCpf(dto.getCpf());
+        user.setDtSubscription(dto.getDtSubscription());
+        user.setDtExpiration(dto.getDtExpiration());
+        user.setUserType(userType);
+        return user;
     }
 }

@@ -1,10 +1,12 @@
 package com.client.ws.rasmooplus.controllers;
 
 import com.client.ws.rasmooplus.dto.UserDto;
+import com.client.ws.rasmooplus.dto.UserMinDto;
 import com.client.ws.rasmooplus.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -80,11 +82,11 @@ class UserControllerTest {
     }
 
     @Test
-    void given_uploadPhoto_then_recieveMultiPartFIle_then_return200Ok() throws Exception {
+    void given_uploadPhoto_when_retrieveMultiPartFIle_then_return200Ok() throws Exception {
         FileInputStream fis = new FileInputStream("src/test/resources/static/logoJava.jpeg");
-        MockMultipartFile file = new MockMultipartFile("file", "logoJava.png", MediaType.MULTIPART_FORM_DATA_VALUE, fis);
+        MockMultipartFile file = new MockMultipartFile("file", "logoJava.jpeg", MediaType.MULTIPART_FORM_DATA_VALUE, fis);
 
-        Mockito.when(userService.uploadPhoto(1L, file)).thenReturn(new UserDto());
+        Mockito.when(userService.uploadPhoto(1L, file)).thenReturn(new UserMinDto());
 
         MockMultipartHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.multipart("/user/1/upload-photo");
@@ -96,6 +98,18 @@ class UserControllerTest {
                         .file(file)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    void given_downloadPhoto_when_thereIsPohtoInDatabase_then_return200Ok() throws Exception {
+        Mockito.when(userService.downloadPhoto(1L)).thenReturn(new byte[0]);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/1/photo")
+                        .contentType(MediaType.IMAGE_PNG)
+                        .contentType(MediaType.IMAGE_JPEG)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(userService, Mockito.times(1)).downloadPhoto(1L);
     }
 
     private static UserDto createUserDto() {

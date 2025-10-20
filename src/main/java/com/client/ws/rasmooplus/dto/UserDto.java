@@ -30,6 +30,11 @@ public class UserDto {
     private String cpf;
     private LocalDate dtSubscription  = LocalDate.now();
     private LocalDate dtExpiration  = LocalDate.now();
+
+    private String photoName;
+
+    private byte[] photo;
+
     @NotNull
     private Long userTypeId;
     private Long subscriptionTypeId;

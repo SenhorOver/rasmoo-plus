@@ -94,7 +94,7 @@ class PaymentInfoServiceTest {
         ));
         userType = new UserType(USER_TYPE_ID, "Aluno", "Descrição Aluno");
         subscriptionType = new SubscriptionType(1L, "MENSAL", 1, BigDecimal.valueOf(20),PRODUCT_KEY);
-        user = new User(USER_ID, "Nome Sobrenome", "email@email.com", "11999998888", "44455566678", LocalDate.now(), LocalDate.now(), userType, subscriptionType);
+        user = new User(USER_ID, "Nome Sobrenome", "email@email.com", "11999998888", "44455566678", LocalDate.now(), LocalDate.now(), "photo", new byte[1], userType, subscriptionType);
         customerDto = CustomerMapper.build(user);
         orderDto = OrderMapper.build(customerDto.getId(), paymentProcessDto);
         paymentDto = PaymentMapper.build(customerDto.getId(), orderDto.getId(), CreditCardMapper.build(paymentProcessDto.getUserPaymentInfoDto(), user.getCpf()));

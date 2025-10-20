@@ -32,6 +32,8 @@ public class UserMapper {
                 .phone(entity.getPhone())
                 .dtSubscription(entity.getDtSubscription())
                 .dtExpiration(entity.getDtExpiration())
+                .photoName(entity.getPhotoName())
+                .photo(entity.getPhoto())
                 .userType(UserTypeMapper.fromEntityToDto(entity.getUserType()))
                 .userTypeId(entity.getUserType().getId())
                 .subscriptionType(Objects.nonNull(entity.getSubscriptionType()) ? SubscriptionTypeMapper.fromEntityToDto(entity.getSubscriptionType()) : null)
