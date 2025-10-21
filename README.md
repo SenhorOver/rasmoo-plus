@@ -14,8 +14,6 @@ Possui rotas protegidas com acesso limitado via Token (JWT) e cache integrado pa
 
 Documentação feita com swagger que pode ser visualizada pela URL que está descrita no bloco de "Como executar o projeto"
 
-
-
 ![Docs1](https://i.ibb.co/6cMgyYd6/Screenshot-from-2025-10-21-18-32-15.png)
 ![Docs2](https://i.ibb.co/tTQpkD0t/Screenshot-from-2025-10-21-18-32-40.png)
 
