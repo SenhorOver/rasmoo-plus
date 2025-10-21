@@ -10,6 +10,15 @@ Possui rotas protegidas com acesso limitado via Token (JWT) e cache integrado pa
 
 ![Modelo Conceitual](https://i.ibb.co/y94SG1B/Screenshot-from-2025-10-06-20-15-07.png)
 
+## Documentação
+
+Documentação feita com swagger que pode ser visualizada pela URL que está descrita no bloco de "Como executar o projeto"
+
+
+
+![Docs1](https://i.ibb.co/6cMgyYd6/Screenshot-from-2025-10-21-18-32-15.png)
+![Docs2](https://i.ibb.co/tTQpkD0t/Screenshot-from-2025-10-21-18-32-40.png)
+
 # Tecnologias utilizadas
 
 ## Back end
@@ -54,7 +63,7 @@ docker compose up -d
 ```
 Após rodar o projeto é possível ver endpoints através da seguinte URL:
 
-http://localhost:8082/ws-rasplus/swagger-ui.html
+http://localhost:8082/ws-rasplus/v1/swagger-ui/index.html
 
 # Autor
 
