@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info =@Info(
                 title = "User API",
-//                version = "${api.version}",
-                version = "0.0.1",
+                version = "1.0.0",
                 contact = @Contact(
                         name = "Over", email = "mrcsvs@outlook.com", url = "https://www.github.com/SenhorOver"
                 ),
